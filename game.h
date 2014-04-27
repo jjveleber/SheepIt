@@ -7,20 +7,20 @@
 class Game : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(Score *yourScore MEMBER m_yourScore NOTIFY yourScoreChanged)
-    Q_PROPERTY(Score *highScore MEMBER m_highScore NOTIFY highScoreChanged)
+    Q_PROPERTY(Score *yourScore READ yourScore CONSTANT)
+    Q_PROPERTY(Score *highScore READ highScore CONSTANT)
 public:
     explicit Game(QObject *parent = 0);
-
+    Score *yourScore();
+    Score *highScore();
 signals:
-    void yourScoreChanged();
-    void highScoreChanged();
+
 
 public slots:
     void playTimeout();
 private:
-    Score *m_yourScore;
-    Score *m_highScore;
+    Score m_yourScore;
+    Score m_highScore;
     QString twinPrimes[100000];
 
 };

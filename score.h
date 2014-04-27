@@ -7,17 +7,21 @@
 class Score : public QObject
 {
     Q_OBJECT
-//    Q_PROPERTY(quint32 scoreIndex  MEMBER m_scoreIndex NOTIFY scoreIndexChanged)
-//    Q_PROPERTY(QString scoreString MEMBER m_scoreString NOTIFY scoreStringChanged)
+    Q_PROPERTY(int scoreIndex READ scoreIndex WRITE setScoreIndex NOTIFY scoreChanged)
+    Q_PROPERTY(QString scoreString READ scoreString NOTIFY scoreChanged)
 public:
-    explicit Score(QObject *parent = 0);
+    Score(QObject *parent = 0);
+    int scoreIndex() const;
+    void setScoreIndex(const int &);
+    QString scoreString() const;
 
 signals:
+    void scoreChanged();
 
 public slots:
 
 private:
-    quint32 m_scoreIndex;
+    int m_scoreIndex;
     QString m_scoreString;
 
 };

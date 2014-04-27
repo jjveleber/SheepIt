@@ -13,3 +13,12 @@ void Game::playTimeout() {
     // End Current Game
     // Update High Score if needed
 }
+
+Score *Game::yourScore() {
+    return &m_yourScore;
+}
+
+
+Score *Game::highScore() {
+    return &m_highScore;
+}

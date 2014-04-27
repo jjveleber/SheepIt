@@ -1,6 +1,8 @@
+import Game 1.0
 import QtQuick 2.2
 import QtQuick.Layouts 1.1
 import QtQuick.Particles 2.0
+
 
 Rectangle {
     width: 1440
@@ -8,6 +10,17 @@ Rectangle {
 
     focus: true;
     Keys.onPressed: { if (event.key == Qt.Key_Escape) Qt.quit(); }
+
+    Game {
+        id: game
+        yourScore {
+            scoreIndex: 0
+        }
+
+        highScore {
+            scoreIndex: 0
+        }
+    }
 
     Image {
         anchors.fill: parent
