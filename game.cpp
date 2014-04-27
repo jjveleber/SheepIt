@@ -13,11 +13,3 @@ void Game::playTimeout() {
     // End Current Game
     // Update High Score if needed
 }
-
-void Game::yourScoreChanged() {
-    // TODO: react to score deltas
-}
-
-void Game::highScoreChanged() {
-    // TODO: react to high score deltas
-}
