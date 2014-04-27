@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744.09448819"
+   height="1052.3622047"
+   id="svg6431"
+   version="1.1"
+   inkscape:version="0.48.4 r"
+   inkscape:export-filename="D:\Users\jjveleber\Cloud Drive\Documents\qtprojects\Simon\sheep\gold-star-particle.png"
+   inkscape:export-xdpi="6.0500002"
+   inkscape:export-ydpi="6.0500002"
+   sodipodi:docname="New document 19">
+  <defs
+     id="defs6433">
+    <filter
+       id="filter6921"
+       inkscape:label="Gold paste"
+       x="-0.25"
+       y="-0.25"
+       height="1.5"
+       width="1.5"
+       inkscape:menu="Materials"
+       inkscape:menu-tooltip="Fat pasted cast metal, with golden highlights"
+       color-interpolation-filters="sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur6923"
+         in="SourceAlpha"
+         stdDeviation="0.01"
+         result="result91" />
+      <feComposite
+         id="feComposite6925"
+         in2="result91"
+         result="fbSourceGraphic"
+         operator="in"
+         in="SourceGraphic" />
+      <feColorMatrix
+         id="feColorMatrix6927"
+         values="1"
+         in="fbSourceGraphic"
+         result="fbSourceGraphicAlpha"
+         type="saturate" />
+      <feGaussianBlur
+         id="feGaussianBlur6929"
+         result="result1"
+         in="fbSourceGraphic"
+         stdDeviation="0.01" />
+      <feTurbulence
+         id="feTurbulence6931"
+         result="result0"
+         numOctaves="4"
+         baseFrequency="0.04"
+         type="fractalNoise"
+         seed="20" />
+      <feDisplacementMap
+         id="feDisplacementMap6933"
+         in2="result0"
+         result="result2"
+         scale="30"
+         yChannelSelector="G"
+         xChannelSelector="R"
+         in="result1" />
+      <feColorMatrix
+         id="feColorMatrix6935"
+         type="saturate"
+         values="1"
+         result="result3" />
+      <feGaussianBlur
+         id="feGaussianBlur6937"
+         result="result4"
+         in="fbSourceGraphic"
+         stdDeviation="0.01" />
+      <feComposite
+         id="feComposite6939"
+         in2="result3"
+         operator="atop"
+         result="fbSourceGraphic"
+         in="result4" />
+      <feColorMatrix
+         id="feColorMatrix6941"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         in="fbSourceGraphic"
+         result="fbSourceGraphicAlpha" />
+      <feGaussianBlur
+         id="feGaussianBlur6943"
+         result="result0"
+         in="fbSourceGraphic"
+         stdDeviation="1.5" />
+      <feTurbulence
+         id="feTurbulence6945"
+         baseFrequency="0.02"
+         seed="20"
+         numOctaves="8"
+         result="result1"
+         type="fractalNoise" />
+      <feComposite
+         id="feComposite6947"
+         in2="result1"
+         result="result2"
+         operator="out"
+         in="result0" />
+      <feSpecularLighting
+         id="feSpecularLighting6949"
+         lighting-color="rgb(223,188,16)"
+         surfaceScale="2.5"
+         result="result4"
+         specularConstant="2"
+         specularExponent="30"
+         in="result2">
+        <feDistantLight
+           id="feDistantLight6951"
+           elevation="62"
+           azimuth="225" />
+      </feSpecularLighting>
+      <feComposite
+         id="feComposite6953"
+         in2="result2"
+         in="result4"
+         operator="atop"
+         result="result92" />
+      <feBlend
+         id="feBlend6955"
+         in2="result92"
+         mode="multiply" />
+    </filter>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.87707447"
+     inkscape:cx="184.4919"
+     inkscape:cy="571.78725"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1138"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata6436">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       sodipodi:type="star"
+       style="fill:#ffcc00;fill-opacity:1;stroke:#806600;stroke-opacity:1;filter:url(#filter6921);opacity:0.29545455"
+       id="path6453"
+       sodipodi:sides="5"
+       sodipodi:cx="312.40221"
+       sodipodi:cy="514.20947"
+       sodipodi:r1="166.13809"
+       sodipodi:r2="83.06905"
+       sodipodi:arg1="0.8874811"
+       sodipodi:arg2="1.5157996"
+       inkscape:flatsided="false"
+       inkscape:rounded="0"
+       inkscape:randomized="0"
+       d="m 417.2964,643.04688 -100.32795,-45.89395 -94.6838,56.62978 12.6447,-109.59956 -83.11703,-72.55008 108.14281,-21.84231 43.31465,-101.46819 54.19123,96.10028 109.88695,9.83928 -74.65078,81.23554 z"
+       inkscape:transform-center-x="2.8220792"
+       inkscape:transform-center-y="-13.156833" />
+  </g>
+</svg>

@@ -1,0 +1,24 @@
+<RCC>
+    <qresource prefix="/pics">
+        <file alias="Background">seamless_wood_planks_texture_by_10ravens-d3991v1.jpg</file>
+        <file alias="BlueButton">blue-button.png</file>
+        <file alias="OrangeButton">orange-button.png</file>
+        <file alias="PurpleButton">purple-button.png</file>
+        <file alias="GreenButton">green-button.png</file>
+        <file alias="sheep48">sheep48.png</file>
+        <file alias="sheep64">sheep64.png</file>
+        <file alias="sheep72">sheep72.png</file>
+        <file alias="sheep80">sheep80.png</file>
+        <file alias="sheep96">sheep96.png</file>
+        <file alias="sheep128">sheep128.png</file>
+        <file alias="sheep512">sheep512.png</file>
+        <file alias="sheep288">sheep288.png</file>
+        <file alias="GoldStartParticle">gold-star-particle.png</file>
+    </qresource>
+    <qresource prefix="/fonts">
+        <file alias="myfont">Hotel Coral Essex.ttf</file>
+    </qresource>
+    <qresource prefix="/data">
+        <file alias="TwinPrimes">100ktwins.txt</file>
+    </qresource>
+</RCC>
