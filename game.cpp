@@ -18,7 +18,6 @@ Score *Game::yourScore() {
     return &m_yourScore;
 }
 
-
 Score *Game::highScore() {
     return &m_highScore;
 }

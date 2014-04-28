@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
     qmlRegisterType<Game>("Game", 1,0, "Game");
-    qmlRegisterType<Score>();
+    qmlRegisterType<Score>("Score", 1,0, "Score");
 
     QtQuick2ApplicationViewer viewer;
     viewer.setMainQmlFile(QStringLiteral("qml/sheep/main.qml"));

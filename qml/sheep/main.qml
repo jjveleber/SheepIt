@@ -1,4 +1,5 @@
 import Game 1.0
+import Score 1.0
 import QtQuick 2.2
 import QtQuick.Layouts 1.1
 import QtQuick.Particles 2.0
@@ -14,11 +15,11 @@ Rectangle {
     Game {
         id: game
         yourScore {
-            scoreIndex: 0
+            scoreIndex: 1
         }
 
         highScore {
-            scoreIndex: 0
+            scoreIndex: 100
         }
     }
 
@@ -83,7 +84,7 @@ Rectangle {
         id:highScoreText
         font: highScoreLable.font
         color: "#a01e01"
-        text: "239"
+        text: game.highScore.scoreString
         anchors.left: highScoreLable.right
         anchors.verticalCenter: highScoreLable.verticalCenter
         anchors.leftMargin: 20
@@ -101,7 +102,7 @@ Rectangle {
     Text {
         id:yourScoreText
         font: yourScoreLable.font
-        text: "59"
+        text: game.yourScore.scoreString
         anchors.left: yourScoreLable.right
         anchors.verticalCenter: yourScoreLable.verticalCenter
         anchors.leftMargin: 20
@@ -119,7 +120,7 @@ Rectangle {
     Text {
         id:yourNewScoreText
         font: yourScoreLable.font
-        text: "71"
+        text: game.yourScore.nextScoreString
         anchors.left: yourScoreText.left
         y: 0
         opacity: 0.0

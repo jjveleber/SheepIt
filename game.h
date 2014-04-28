@@ -9,8 +9,9 @@ class Game : public QObject
     Q_OBJECT
     Q_PROPERTY(Score *yourScore READ yourScore CONSTANT)
     Q_PROPERTY(Score *highScore READ highScore CONSTANT)
+
 public:
-    explicit Game(QObject *parent = 0);
+    Game(QObject *parent = 0);
     Score *yourScore();
     Score *highScore();
 signals:
