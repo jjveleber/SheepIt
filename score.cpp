@@ -27,7 +27,7 @@ QString Score::nextScoreString() const {
     if(getScoreList().size() >= m_scoreIndex + 1) {
         return getScoreList().at(m_scoreIndex + 1);
     } else {
-        return "SuX";//scoreString(); // This is cheap, but I don't expect people to get to level 100K
+        return scoreString(); // This is cheap, but I don't expect people to get to level 100K
     }
 }
 
