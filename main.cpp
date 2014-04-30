@@ -2,6 +2,7 @@
 #include <QQmlComponent>
 #include <QFont>
 #include <QFontDatabase>
+#include <QTime>
 #include "qtquick2applicationviewer.h"
 #include "game.h"
 
@@ -9,10 +10,8 @@ int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
 
-//    QFontDatabase fontDB;
-//    fontDB.addApplicationFont(":/fonts/myfont");
-//    QFont font("Hotel Coral Essex");
-//    app.setFont(font);
+    QTime time = QTime::currentTime();
+    qsrand((uint)time.msec());
 
     qmlRegisterType<Game>("Game", 1,0, "Game");
     qmlRegisterType<Score>("Score", 1,0, "Score");

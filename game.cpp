@@ -1,11 +1,10 @@
 #include "game.h"
 #include <QTimer>
+#include <QGlobal.h>
 #include <QDebug>
 
-Game::Game(QObject *parent) :
-    QObject(parent)
-{
-
+Game::Game(QObject *parent) : QObject(parent) {
+    connect(&m_yourScore, SIGNAL(scoreChanged()), this, SLOT(scoreChanged()));
 }
 
 void Game::playTimeout() {
@@ -18,6 +17,51 @@ Score *Game::yourScore() {
     return &m_yourScore;
 }
 
+void Game::scoreChanged() {
+    // This assumes scores always go up.
+    addRandomToSequence();
+}
+
 Score *Game::highScore() {
     return &m_highScore;
+}
+
+int Game::playBackPosition() {
+    return m_playBackPosition;
+}
+
+void Game::incrementPlayBackPosition() {
+    if(m_playBackPosition >= m_sequence.size()) {
+        m_playBackPosition = 0;
+        return;
+    }
+    m_playBackPosition++;
+    emit playBackPositionChanged();
+}
+
+int Game::getExpectedBuzzerIndex() {
+    return m_sequence.at(m_playerPosition);
+}
+
+void Game::addRandomToSequence() {
+    m_sequence.append(randomInt(0, 3));
+}
+
+int Game::randomInt(int low, int high) {
+    // Random number between low and high
+    return qrand() % ((high + 1) - low) + low;
+}
+
+void Game::buttonPressed(int position) {
+//    if(getExpectedBuzzerIndex() == position) {
+        m_playerPosition++;
+        if(m_playerPosition >= m_sequence.size()) {
+            // Player has completed sequence
+            m_playerPosition = 0;
+            m_yourScore.incrementScoreIndex();
+            qDebug() << "buttonPressed & scored m_playerPosition:" << m_playerPosition << "sequence size:" << m_sequence.size() << "m_yourScore.scoreIndex:" << m_yourScore.scoreIndex();
+        } else {
+            qDebug() << "buttonPressed & !scored m_playerPosition:" << m_playerPosition << "sequence size:" << m_sequence.size() << "m_yourScore.scoreIndex:" << m_yourScore.scoreIndex();
+        }
+//    }
 }

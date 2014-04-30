@@ -3,6 +3,7 @@ import Score 1.0
 import QtQuick 2.2
 import QtQuick.Layouts 1.1
 import QtQuick.Particles 2.0
+import QtQuick.Controls 1.1
 
 
 Rectangle {
@@ -12,10 +13,15 @@ Rectangle {
     focus: true;
     Keys.onPressed: { if (event.key === Qt.Key_Escape) Qt.quit(); }
 
+
     Game {
         id: game
+
         yourScore {
-            scoreIndex: 1
+            scoreIndex: 0
+            onScoreChanged: {
+                scores.state = "playerScored";
+            }
         }
 
         highScore {
@@ -29,6 +35,18 @@ Rectangle {
         fillMode: Image.Tile
     }
 
+    Button {
+         id: fakeIt
+         anchors.left: parent.left
+         anchors.top: parent.top
+         anchors.leftMargin: 20
+         anchors.topMargin: anchors.leftMargin
+         text: "Score Baby!"
+         onClicked: {
+//            scores.state = "playerScored";
+             game.buttonPressed(0);
+         }
+    }
    Header {
        id: header
        anchors.left: parent.left
@@ -42,6 +60,8 @@ Rectangle {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: header.bottom
+
+        gameInstance: game
    }
 
    Buzzers {

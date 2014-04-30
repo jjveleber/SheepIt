@@ -6,6 +6,7 @@
 Score::Score(QObject *parent) :
     QObject(parent), m_scoreIndex(0)
 {
+
 }
 
 int Score::scoreIndex() const {
@@ -19,16 +20,15 @@ void Score::setScoreIndex(const int &value) {
     emit scoreChanged();
 }
 
-QString Score::scoreString() const {
-    return getScoreList().at(m_scoreIndex);
+int Score::incrementScoreIndex() {
+    setScoreIndex(m_scoreIndex + 1);
+    return m_scoreIndex;
 }
 
-QString Score::nextScoreString() const {
-    if(getScoreList().size() >= m_scoreIndex + 1) {
-        return getScoreList().at(m_scoreIndex + 1);
-    } else {
-        return scoreString(); // This is cheap, but I don't expect people to get to level 100K
-    }
+QString Score::scoreString(int index) const {
+    if(index < 0) return getScoreList().at(0);
+
+    return getScoreList().at(index);
 }
 
 QStringList Score::getScoreList() {
