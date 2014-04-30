@@ -17,10 +17,17 @@ Rectangle {
     Game {
         id: game
 
+        Component.onCompleted: {
+            //game.resetGame();
+        }
+
         yourScore {
             scoreIndex: 0
             onScoreChanged: {
                 scores.state = "playerScored";
+            }
+            onScoreReset: {
+                scores.state = "reset"
             }
         }
 
@@ -35,18 +42,22 @@ Rectangle {
         fillMode: Image.Tile
     }
 
-    Button {
-         id: makeIt
-         anchors.left: parent.left
-         anchors.top: parent.top
-         anchors.leftMargin: 20
-         anchors.topMargin: anchors.leftMargin
-         text: "Score Baby!"
-         onClicked: {
-//            scores.state = "playerScored";
-             game.buttonPressed(0);
-         }
+    Text {
+        id: cheatText
+        text: game.cheatString
+        font.pixelSize: 50
+        anchors.left: makeIt.right
+        width: parent.width
+        anchors.bottom: parent.bottom
+        opacity: 0
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                cheatText.opacity = 0.75;
+            }
+        }
     }
+
    Header {
        id: header
        anchors.left: parent.left
@@ -68,7 +79,7 @@ Rectangle {
        id: buzzers
        anchors.bottom: parent.bottom
        anchors.topMargin: 25
-       anchors.bottomMargin: 50
+       anchors.bottomMargin: 35
        anchors.horizontalCenter: parent.horizontalCenter
 
        gameInstance: game

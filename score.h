@@ -14,10 +14,12 @@ public:
     int scoreIndex() const;
     void setScoreIndex(const int &);
     int incrementScoreIndex();
+    void reset();
     Q_INVOKABLE QString scoreString(int index) const;
 
 signals:
     void scoreChanged();
+    void scoreReset();
 public slots:
 
 private:

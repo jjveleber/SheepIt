@@ -48,3 +48,8 @@ QStringList Score::getScoreList() {
     }
     return instance;
 }
+
+void Score::reset() {
+    m_scoreIndex = 0;
+    emit scoreReset();
+}

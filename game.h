@@ -11,6 +11,7 @@ class Game : public QObject
     Q_PROPERTY(Score *yourScore READ yourScore CONSTANT)
     Q_PROPERTY(Score *highScore READ highScore CONSTANT)
     Q_PROPERTY(int playBackPosition READ playBackPosition NOTIFY playBackPositionChanged)
+    Q_PROPERTY(QString cheatString READ cheatString NOTIFY cheatStringChanged)
 
 public:
     Game(QObject *parent = 0);
@@ -20,9 +21,13 @@ public:
     Q_INVOKABLE void incrementPlayBackPosition();
     Q_INVOKABLE void addRandomToSequence();
     Q_INVOKABLE void buttonPressed(int);
+    Q_INVOKABLE void resetGame();
+    QString cheatString() const;
+
 
 signals:
     void playBackPositionChanged();
+    void cheatStringChanged();
 
 public slots:
     void playTimeout();

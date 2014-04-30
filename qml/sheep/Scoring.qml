@@ -66,80 +66,116 @@ Item {
     states: [
         State {
             name: "playerScored"
+        },
+        State {
+            name: "reset"
         }
 
     ]
 
     transitions: [
         Transition {
-            from: ""
+            from: "*"
             to: "playerScored"
-            SequentialAnimation {
-                id:youScoredAnimation
-                running: false
-                SequentialAnimation {
-                    ScriptAction {
-                        script: {
-                            yourScoreText.text = game.yourScore.scoreString(game.yourScore.scoreIndex -1);
-                            yourNewScoreText.text = game.yourScore.scoreString(game.yourScore.scoreIndex);
-                        }
-                    }
-                    ParallelAnimation {
-                        YAnimator {
-                            id:yourNewScoreYAni
-                            target: yourNewScoreText;
-                            from: -me.y
-                            to: yourScoreText.y
-                            easing.type: Easing.InBack;
-                            duration: 500
-                        }
-                        OpacityAnimator {
-                            target: yourNewScoreText
-                            from: 0.1
-                            to: 1
-                            easing.type: Easing.Linear;
-                            duration: 500
-                        }
-                        ScaleAnimator {
-                            target: yourNewScoreText
-                            from: 0
-                            to: 1
-                            easing.type: Easing.OutBounce;
-                            duration: 300
-                        }
-
-                    }
-                    ScriptAction {
-                        script: {
-                            shootingStarEmitter.burst(750);
-                            shootingStarBurst.pulse(300);
-                        }
-                    }
-                    ParallelAnimation {
-                        ScaleAnimator {
-                            target: yourNewScoreText
-                            from: 1
-                            to: 0
-                            easing.type: Easing.OutBounce;
-                            duration: 300
-                        }
-
-                        ScriptAction {
-                            script: {
-                                yourScoreText.text = game.yourScore.scoreString(game.yourScore.scoreIndex);
-                            }
-                        }
-                    }
-                }
-                PropertyAction {
-                    target: me
-                    properties: "state"
-                    value: ""
-                }
-            }
+            animations: youScoredAnimation
+        },
+        Transition {
+            from: "*"
+            to: "reset"
+            animations: resetGameAnimation
         }
 
     ]
+
+    SequentialAnimation {
+        id: resetGameAnimation
+        running: false
+
+        // TODO: end of game screen reset after play
+        ScaleAnimator {
+            target: yourScoreText
+            from: 1
+            to: 0
+            easing.type: Easing.InBounce;
+            duration: 300
+        }
+        PropertyAction {
+            target: yourScoreText
+            property: "text"
+            value: "0"
+        }
+        ScaleAnimator {
+            target: yourScoreText
+            from: 0
+            to: 1
+            easing.type: Easing.OutBounce;
+            duration: 300
+        }
+    }
+
+    SequentialAnimation {
+        id:youScoredAnimation
+        running: false
+        SequentialAnimation {
+            ScriptAction {
+                script: {
+                    yourScoreText.text = game.yourScore.scoreString(game.yourScore.scoreIndex -1);
+                    yourNewScoreText.text = game.yourScore.scoreString(game.yourScore.scoreIndex);
+                }
+            }
+            ParallelAnimation {
+                YAnimator {
+                    id:yourNewScoreYAni
+                    target: yourNewScoreText;
+                    from: -me.y
+                    to: yourScoreText.y
+                    easing.type: Easing.InBack;
+                    duration: 500
+                }
+                OpacityAnimator {
+                    target: yourNewScoreText
+                    from: 0.1
+                    to: 1
+                    easing.type: Easing.Linear;
+                    duration: 500
+                }
+                ScaleAnimator {
+                    target: yourNewScoreText
+                    from: 0
+                    to: 1
+                    easing.type: Easing.OutBounce;
+                    duration: 300
+                }
+
+            }
+            ScriptAction {
+                script: {
+                    shootingStarEmitter.burst(750);
+                    shootingStarBurst.pulse(300);
+                }
+            }
+            ParallelAnimation {
+                ScaleAnimator {
+                    target: yourNewScoreText
+                    from: 1
+                    to: 0
+                    easing.type: Easing.OutBounce;
+                    duration: 300
+                }
+
+                ScriptAction {
+                    script: {
+                        yourScoreText.text = game.yourScore.scoreString(game.yourScore.scoreIndex);
+                    }
+                }
+            }
+        }
+        PropertyAction {
+            target: me
+            properties: "state"
+            value: ""
+        }
+    }
 
     ParticleSystem {
         id:yourScoreStarParticles
