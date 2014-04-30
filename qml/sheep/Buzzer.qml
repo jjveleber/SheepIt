@@ -1,3 +1,4 @@
+import Game 1.0
 import QtQuick 2.2
 
 Item{
@@ -5,6 +6,8 @@ Item{
     width: 330
     height: 330
     property string imgSrc
+    property int positionIndex: 0
+    property Game gameInstance
 
     Rectangle {
         id:buzzer
@@ -21,23 +24,49 @@ Item{
         MouseArea {
             id: mouseArea
             anchors.fill: parent
-        }
-
-        states: State {
-            name: "pressed"
-            when: mouseArea.pressed
-            PropertyChanges {
-                target: buzzer
-                scale: 1.2
+            onClicked: {
+                buzzer.state = "clicked";
             }
         }
 
-        transitions:  Transition {
-           NumberAnimation {
+        states: [
+            State {
+                name: "clicked"
+            }
+
+        ]
+
+        transitions: [
+            Transition {
+                to: "clicked"
+                animations: bubbleAnimation
+            }
+        ]
+
+        SequentialAnimation {
+            id:bubbleAnimation
+            NumberAnimation {
+               target: buzzer
                properties: "scale"
-               duration: 200
+               from: 1.0
+               to: 1.2
+               duration: 300
                easing.type: Easing.InOutQuad
-           }
+            }
+            NumberAnimation {
+               target: buzzer
+               properties: "scale"
+               from: 1.2
+               to: 1.0
+               duration: 300
+               easing.type: Easing.InOutQuad
+            }
+            ScriptAction {
+                script: {
+                    buzzer.state = "";
+                    game.buttonPressed(positionIndex);
+                }
+            }
         }
     }
 }

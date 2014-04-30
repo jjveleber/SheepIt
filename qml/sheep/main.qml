@@ -36,7 +36,7 @@ Rectangle {
     }
 
     Button {
-         id: fakeIt
+         id: makeIt
          anchors.left: parent.left
          anchors.top: parent.top
          anchors.leftMargin: 20
@@ -70,5 +70,7 @@ Rectangle {
        anchors.topMargin: 25
        anchors.bottomMargin: 50
        anchors.horizontalCenter: parent.horizontalCenter
+
+       gameInstance: game
    }
 }
