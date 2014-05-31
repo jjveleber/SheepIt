@@ -37,4 +37,47 @@ Item {
             gameInstance: me.gameInstance
         }
     }
+
+    states: [
+        State {
+            name: "playBack"
+        }
+    ]
+    transitions: [playBackAniTransition]
+
+    Transition {
+        id:playBackAniTransition
+        from: "*"
+            to: "playBack"
+            ScriptAction {
+                script: {
+
+                    function getBuzzer(index) {
+                        switch(index) {
+                        case 0:
+                            return blueButton;
+                        case 1:
+                            return orangeButton;
+                        case 2:
+                            return purpleButton;
+                        case 3:
+                            return greenButton;
+                        }
+                    }
+
+                    var pos = gameInstance.playBackPosition;
+                    console.debug(pos);
+                    while(pos >= 0) {
+                        var buzzer = getBuzzer(pos);
+                        console.debug(buzzer.id, pos, "ani start");
+                        buzzer.bubbleAni.start();
+                        while(buzzer.bubbleAni.running){console.debug(".");}
+                        console.debug(buzzer.id, pos, "ani end");
+                        pos = gameInstance.incrementPlayBackPosition();
+                    }
+                    console.debug("playback complete");
+                    gameInstance.isPlayBack = false;
+                }
+            }
+        }
 }

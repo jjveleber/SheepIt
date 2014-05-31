@@ -8,6 +8,7 @@ Item{
     property string imgSrc
     property int positionIndex: 0
     property Game gameInstance
+    property alias bubbleAni : bubbleAnimation
 
     Rectangle {
         id:buzzer

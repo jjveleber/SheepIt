@@ -18,7 +18,11 @@ Rectangle {
         id: game
 
         Component.onCompleted: {
-            //game.resetGame();
+            game.isPlayBack = true;
+        }
+        onIsPlayBackChanged: {
+            buzzers.state = game.isPlayBack ? "playBack" : "play";
+            console.debug("isPlayBack:", game.isPlayBack);
         }
 
         yourScore {
@@ -46,7 +50,7 @@ Rectangle {
         id: cheatText
         text: game.cheatString
         font.pixelSize: 50
-        anchors.left: makeIt.right
+        anchors.horizontalCenter: parent.horizontalCenter
         width: parent.width
         anchors.bottom: parent.bottom
         opacity: 0
