@@ -5,7 +5,6 @@
 
 Game::Game(QObject *parent) : QObject(parent) {
     connect(&m_yourScore, SIGNAL(scoreChanged()), this, SLOT(scoreChanged()));
-    resetGame();
 }
 
 void Game::playTimeout() {
@@ -16,10 +15,10 @@ void Game::playTimeout() {
 
 void Game::resetGame() {
     m_sequence.clear();
-    m_playerPosition = 0;
+    m_playerSequenceindex = 0;
     yourScore()->reset();
     addRandomToSequence();
-    //TODO: Play sequence
+    setIsPlayBack(true);
 }
 
 Score *Game::yourScore() {
@@ -35,21 +34,50 @@ Score *Game::highScore() {
     return &m_highScore;
 }
 
-int Game::playBackPosition() {
-    return m_playBackPosition;
+bool Game::isPlayBack() const{
+    return m_isPlayBack;
 }
 
-void Game::incrementPlayBackPosition() {
-    if(m_playBackPosition >= m_sequence.size()) {
-        m_playBackPosition = 0;
-        return;
+void Game::setIsPlayBack(const bool &value) {
+    if(m_isPlayBack == value) return;
+
+    m_isPlayBack = value;
+    emit isPlayBackChanged();
+    // reset playback index
+    setPlayBackSequenceIndex(0);
+}
+
+int Game::playBackPosition() const {
+    if(m_playBackSequenceindex >= 0 && m_playBackSequenceindex < m_sequence.size()) {
+       return m_sequence.at(m_playBackSequenceindex);
     }
-    m_playBackPosition++;
+
+    return -1; // overflow
+}
+
+void Game::setPlayBackSequenceIndex(const int &value) {
+    if(m_playBackSequenceindex == value) return;
+
+    m_playBackSequenceindex = value;
     emit playBackPositionChanged();
 }
 
+int Game::incrementPlayBackPosition() {
+    qDebug() << "incrementPlayBackPosition" << "m_playBackSequenceindex:" << m_playBackSequenceindex << "m_sequence.size():" << m_sequence.size();
+//    if(m_playBackSequenceindex >= (m_sequence.size()-1)) {
+//        setPlayBackSequenceIndex(0);
+//        setIsPlayBack(false);
+//    } else {
+//        setPlayBackSequenceIndex(m_playBackSequenceindex +1);
+//    }
+
+    // use overflow to indicate playback finished
+    setPlayBackSequenceIndex(m_playBackSequenceindex +1);
+    return playBackPosition();
+}
+
 int Game::getExpectedBuzzerIndex() {
-    return m_sequence.at(m_playerPosition);
+    return m_sequence.at(m_playerSequenceindex);
 }
 
 void Game::addRandomToSequence() {
@@ -64,14 +92,12 @@ int Game::randomInt(int low, int high) {
 
 void Game::buttonPressed(int position) {
     if(getExpectedBuzzerIndex() == position) {
-        m_playerPosition++;
-        if(m_playerPosition >= m_sequence.size()) {
+        m_playerSequenceindex++;
+        if(m_playerSequenceindex >= m_sequence.size()) {
             // Player has completed sequence
-            m_playerPosition = 0;
+            m_playerSequenceindex = 0;
             m_yourScore.incrementScoreIndex();
-            qDebug() << "buttonPressed & scored m_playerPosition:" << m_playerPosition << "sequence size:" << m_sequence.size() << "m_yourScore.scoreIndex:" << m_yourScore.scoreIndex();
-        } else {
-            qDebug() << "buttonPressed & !scored m_playerPosition:" << m_playerPosition << "sequence size:" << m_sequence.size() << "m_yourScore.scoreIndex:" << m_yourScore.scoreIndex();
+            setIsPlayBack(true);
         }
         emit cheatStringChanged();
     } else {
@@ -82,7 +108,7 @@ void Game::buttonPressed(int position) {
 
 QString Game::cheatString() const {
     QString cheatStr;
-    cheatStr.append("Pos: ").append(QString::number(m_playerPosition)).append(" Seq: ");
+    cheatStr.append("Pos: ").append(QString::number(m_playerSequenceindex)).append(" Seq: ");
 
     QString seqStr;
 
@@ -90,11 +116,11 @@ QString Game::cheatString() const {
         if(seqStr.size() > 0) {
             seqStr.append(", ");
         }
-        if(i == m_playerPosition) {
+        if(i == m_playerSequenceindex) {
             seqStr.append("<u>");
         }
         seqStr.append(QString::number(m_sequence.at(i)));
-        if(i == m_playerPosition) {
+        if(i == m_playerSequenceindex) {
             seqStr.append("</u>");
         }
     }

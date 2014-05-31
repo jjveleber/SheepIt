@@ -18,6 +18,7 @@ Rectangle {
         id: game
 
         Component.onCompleted: {
+            game.resetGame();
             game.isPlayBack = true;
         }
         onIsPlayBackChanged: {

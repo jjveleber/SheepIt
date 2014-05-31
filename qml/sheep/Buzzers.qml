@@ -71,7 +71,7 @@ Item {
                         var buzzer = getBuzzer(pos);
                         console.debug(buzzer.id, pos, "ani start");
                         buzzer.bubbleAni.start();
-                        while(buzzer.bubbleAni.running){console.debug(".");}
+//                        while(buzzer.bubbleAni.running){console.debug(".");}
                         console.debug(buzzer.id, pos, "ani end");
                         pos = gameInstance.incrementPlayBackPosition();
                     }
