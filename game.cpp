@@ -63,14 +63,6 @@ void Game::setPlayBackSequenceIndex(const int &value) {
 }
 
 int Game::incrementPlayBackPosition() {
-    qDebug() << "incrementPlayBackPosition" << "m_playBackSequenceindex:" << m_playBackSequenceindex << "m_sequence.size():" << m_sequence.size();
-//    if(m_playBackSequenceindex >= (m_sequence.size()-1)) {
-//        setPlayBackSequenceIndex(0);
-//        setIsPlayBack(false);
-//    } else {
-//        setPlayBackSequenceIndex(m_playBackSequenceindex +1);
-//    }
-
     // use overflow to indicate playback finished
     setPlayBackSequenceIndex(m_playBackSequenceindex +1);
     return playBackPosition();

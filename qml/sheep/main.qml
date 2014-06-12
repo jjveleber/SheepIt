@@ -22,8 +22,10 @@ Rectangle {
             game.isPlayBack = true;
         }
         onIsPlayBackChanged: {
-            buzzers.state = game.isPlayBack ? "playBack" : "play";
             console.debug("isPlayBack:", game.isPlayBack);
+            if(game.isPlayBack) {
+                buzzers.playBackAni.start();
+            }
         }
 
         yourScore {
