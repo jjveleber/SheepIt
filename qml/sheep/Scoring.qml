@@ -9,8 +9,8 @@ Item {
     property Game gameInstance
 
     Component.onCompleted: {
-        yourScoreText.text = game.yourScore.scoreString(0);
-        highScoreText.text = game.highScore.scoreString(0);
+        yourScoreText.text = gameInstance.yourScore.scoreString(gameInstance.yourScore.scoreIndex);
+        highScoreText.text = gameInstance.highScore.scoreString(gameInstance.highScore.scoreIndex);
     }
 
     SheepText {
@@ -119,8 +119,8 @@ Item {
         SequentialAnimation {
             ScriptAction {
                 script: {
-                    yourScoreText.text = game.yourScore.scoreString(game.yourScore.scoreIndex -1);
-                    yourNewScoreText.text = game.yourScore.scoreString(game.yourScore.scoreIndex);
+                    yourScoreText.text = gameInstance.yourScore.scoreString(gameInstance.yourScore.scoreIndex -1);
+                    yourNewScoreText.text = gameInstance.yourScore.scoreString(gameInstance.yourScore.scoreIndex);
                 }
             }
             ParallelAnimation {
@@ -165,9 +165,12 @@ Item {
 
                 ScriptAction {
                     script: {
-                        yourScoreText.text = game.yourScore.scoreString(game.yourScore.scoreIndex);
+                        yourScoreText.text = gameInstance.yourScore.scoreString(gameInstance.yourScore.scoreIndex);
+                        highScoreText.text = gameInstance.highScore.scoreString(gameInstance.highScore.scoreIndex);
+                        gameInstance.isPlayBack = true;
                     }
                 }
+
             }
         }
         PropertyAction {

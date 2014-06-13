@@ -2,18 +2,39 @@
 #include <QTimer>
 #include <QGlobal.h>
 #include <QDebug>
+#include <QStringBuilder>
+#include <QFile>
+#include <QTextStream>
+#include <QDataStream>
+#include <QFileInfo>
 
 Game::Game(QObject *parent) : QObject(parent) {
-    connect(&m_yourScore, SIGNAL(scoreChanged()), this, SLOT(scoreChanged()));
-}
 
-void Game::playTimeout() {
-    // TODO: Impl
-    // End Current Game
-    // Update High Score if needed
+    // Load m_PlayBackAnimationTemplate
+    QFile templateFile(":/templates/PlayBackAnimationTemplate");
+    templateFile.open(QFile::ReadOnly | QFile::Text);
+    QTextStream in(&templateFile);
+    m_PlayBackAnimationTemplate = in.readAll();
+    templateFile.close();
+
+    QFile highScoreFile("highscore");
+    QFileInfo fileInfo(highScoreFile.fileName());
+    qDebug() << "In" << fileInfo.absoluteFilePath();
+    if(highScoreFile.exists()) {
+        highScoreFile.open(QFile::ReadOnly);
+        QDataStream highScoreIn(&highScoreFile);
+        int highScoreIndex;
+        highScoreIn >> highScoreIndex;
+        qDebug() << "highScoreIndex" << highScoreIndex;
+        m_highScore.setScoreIndex(highScoreIndex);
+    }
+
+    connect(&m_yourScore, SIGNAL(scoreChanged()), this, SLOT(scoreChanged()));
+
 }
 
 void Game::resetGame() {
+
     m_sequence.clear();
     m_playerSequenceindex = 0;
     yourScore()->reset();
@@ -43,29 +64,6 @@ void Game::setIsPlayBack(const bool &value) {
 
     m_isPlayBack = value;
     emit isPlayBackChanged();
-    // reset playback index
-    setPlayBackSequenceIndex(0);
-}
-
-int Game::playBackPosition() const {
-    if(m_playBackSequenceindex >= 0 && m_playBackSequenceindex < m_sequence.size()) {
-       return m_sequence.at(m_playBackSequenceindex);
-    }
-
-    return -1; // overflow
-}
-
-void Game::setPlayBackSequenceIndex(const int &value) {
-    if(m_playBackSequenceindex == value) return;
-
-    m_playBackSequenceindex = value;
-    emit playBackPositionChanged();
-}
-
-int Game::incrementPlayBackPosition() {
-    // use overflow to indicate playback finished
-    setPlayBackSequenceIndex(m_playBackSequenceindex +1);
-    return playBackPosition();
 }
 
 int Game::getExpectedBuzzerIndex() {
@@ -89,13 +87,41 @@ void Game::buttonPressed(int position) {
             // Player has completed sequence
             m_playerSequenceindex = 0;
             m_yourScore.incrementScoreIndex();
-            setIsPlayBack(true);
+            if(m_yourScore.scoreIndex() > m_highScore.scoreIndex()) {
+                m_highScore.setScoreIndex(m_yourScore.scoreIndex());
+                persistHighScore();
+            }
         }
         emit cheatStringChanged();
     } else {
         // Game over man!
         resetGame();
     }
+}
+
+QString Game::playBackAnimationQml() const {
+    QString animationQml("import QtQuick 2.0\n SequentialAnimation { \n");
+    QHash<int, QString> buttonLookup;
+    buttonLookup.insert(0, "blueButton");
+    buttonLookup.insert(1, "orangeButton");
+    buttonLookup.insert(2, "purpleButton");
+    buttonLookup.insert(3, "greenButton");
+
+    foreach (int pos, m_sequence) {
+        animationQml = animationQml % m_PlayBackAnimationTemplate
+                            .arg(buttonLookup.value(pos));
+    }
+    return animationQml % "\n ScriptAction{script:{gameInstance.isPlayBack = false;}}}";
+}
+
+void Game::persistHighScore() {
+    QFile file("highscore");
+    QFileInfo fileInfo(file.fileName());
+    qDebug() << "Out" << fileInfo.absoluteFilePath();
+    file.open(QFile::WriteOnly);
+    QDataStream out(&file);
+    out.setVersion(QDataStream::Qt_5_2);
+    out << m_highScore.scoreIndex();
 }
 
 QString Game::cheatString() const {
@@ -118,3 +144,4 @@ QString Game::cheatString() const {
     }
     return cheatStr.append(seqStr);
 }
+

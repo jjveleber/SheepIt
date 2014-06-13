@@ -22,7 +22,8 @@ RESOURCES += \
     resources.qrc
 
 OTHER_FILES += \
-    qml/sheep/Buzzer.qml
+    qml/sheep/Buzzer.qml \
+    BubbleAnimationTemplate.txt
 
 RC_FILE += \
     sheep.rc

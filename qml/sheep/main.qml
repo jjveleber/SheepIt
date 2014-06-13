@@ -24,6 +24,7 @@ Rectangle {
         onIsPlayBackChanged: {
             console.debug("isPlayBack:", game.isPlayBack);
             if(game.isPlayBack) {
+                buzzers.playBackAniQml = game.playBackAnimationQml;
                 buzzers.playBackAni.start();
             }
         }
@@ -39,7 +40,9 @@ Rectangle {
         }
 
         highScore {
-            scoreIndex: 100
+            onScoreChanged: {
+
+            }
         }
     }
 

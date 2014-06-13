@@ -21,4 +21,7 @@
     <qresource prefix="/data">
         <file alias="TwinPrimes">100ktwins-formated.txt</file>
     </qresource>
+    <qresource prefix="/templates">
+        <file alias="PlayBackAnimationTemplate">BubbleAnimationTemplate.txt</file>
+    </qresource>
 </RCC>

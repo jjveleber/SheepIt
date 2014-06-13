@@ -7,85 +7,7 @@ Item {
     width: childrenRect.width
     property Game gameInstance
     property alias playBackAni: playBackAnimation
-    property string testAniQml: "
-import QtQuick 2.0
-
-SequentialAnimation {
-    SequentialAnimation {
-        NumberAnimation {
-           target: blueButton
-           properties: \"scale\"
-           from: 1.0
-           to: 1.2
-           duration: 300
-           easing.type: Easing.InOutQuad
-        }
-        NumberAnimation {
-           target: blueButton
-           properties: \"scale\"
-           from: 1.2
-           to: 1.0
-           duration: 300
-           easing.type: Easing.InOutQuad
-        }
-    }
-    SequentialAnimation {
-        NumberAnimation {
-           target: orangeButton
-           properties: \"scale\"
-           from: 1.0
-           to: 1.2
-           duration: 300
-           easing.type: Easing.InOutQuad
-        }
-        NumberAnimation {
-           target: orangeButton
-           properties: \"scale\"
-           from: 1.2
-           to: 1.0
-           duration: 300
-           easing.type: Easing.InOutQuad
-        }
-    }
-    SequentialAnimation {
-        NumberAnimation {
-           target: purpleButton
-           properties: \"scale\"
-           from: 1.0
-           to: 1.2
-           duration: 300
-           easing.type: Easing.InOutQuad
-        }
-        NumberAnimation {
-           target: purpleButton
-           properties: \"scale\"
-           from: 1.2
-           to: 1.0
-           duration: 300
-           easing.type: Easing.InOutQuad
-        }
-    }
-    SequentialAnimation {
-        NumberAnimation {
-           target: greenButton
-           properties: \"scale\"
-           from: 1.0
-           to: 1.2
-           duration: 300
-           easing.type: Easing.InOutQuad
-        }
-        NumberAnimation {
-           target: greenButton
-           properties: \"scale\"
-           from: 1.2
-           to: 1.0
-           duration: 300
-           easing.type: Easing.InOutQuad
-        }
-    }
-}
-
-";
+    property string playBackAniQml
 
 
     Row { // The "Row" type lays out its child items in a horizontal line
@@ -123,7 +45,7 @@ SequentialAnimation {
         id:playBackAnimation
         ScriptAction {
             script: {
-                var ani = Qt.createQmlObject(testAniQml, buzzers, "testAniQml");
+                var ani = Qt.createQmlObject(playBackAniQml, buzzers, "playBackAniQml");
                 ani.start();
             }
         }
