@@ -1,0 +1,18 @@
+    SequentialAnimation {
+        NumberAnimation {
+           target: %1
+           properties: "scale"
+           from: 1.0
+           to: 1.2
+           duration: 300
+           easing.type: Easing.InOutQuad
+        }
+        NumberAnimation {
+           target: %1
+           properties: "scale"
+           from: 1.2
+           to: 1.0
+           duration: 300
+           easing.type: Easing.InOutQuad
+        }
+    }
