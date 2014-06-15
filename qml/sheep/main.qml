@@ -4,34 +4,51 @@ import QtQuick 2.2
 import QtQuick.Layouts 1.1
 import QtQuick.Particles 2.0
 import QtQuick.Controls 1.1
+import QtMultimedia 5.0
 
 
 Rectangle {
+
+
     width: 1440
     height: 1080
 
     focus: true;
-    Keys.onPressed: { if (event.key === Qt.Key_Escape) Qt.quit(); }
+    Keys.onPressed: {
+        if (event.key === Qt.Key_Escape) {
+            game.close();
+            Qt.quit();
+        }
+    }
 
 
     Game {
         id: game
 
-        Component.onCompleted: {
-            game.resetGame();
-            game.isPlayBack = true;
-        }
+        comPortName: "COM3"
+
+        property bool isHighScore: false
+        property bool waitingForPlayer: true
+
+
         onIsPlayBackChanged: {
-            console.debug("isPlayBack:", game.isPlayBack);
             if(game.isPlayBack) {
-                buzzers.playBackAniQml = game.playBackAnimationQml;
-                buzzers.playBackAni.start();
+                startPlayAnimation.start();
             }
+        }
+
+        onExternalButtonPressed: {
+            buzzers.externalButtonMonitor.buttonPos = game.externalButton;
+        }
+
+        onGameOver: {
+            gameOverSnd.play();
         }
 
         yourScore {
             scoreIndex: 0
             onScoreChanged: {
+                isHighScore = false;
                 scores.state = "playerScored";
             }
             onScoreReset: {
@@ -41,7 +58,35 @@ Rectangle {
 
         highScore {
             onScoreChanged: {
+                isHighScore = true;
+            }
+        }
+    }
 
+    SoundEffect{
+        id:gameOverSnd
+        source: "qrc:/sndfx/gameover"
+        onPlayingChanged: {
+            if(!playing) {
+                game.waitingForPlayer = true;
+                anyKey.state = "visible";
+            }
+        }
+    }
+
+    SequentialAnimation {
+        id: startPlayAnimation
+        ScriptAction {
+            script: {
+                game.waitingForPlayer = false;
+                anyKey.state = "hidden";
+            }
+        }
+        PauseAnimation { duration: 1500 }
+        ScriptAction {
+            script: {
+                buzzers.playBackAniQml = game.playBackAnimationQml;
+                buzzers.playBackAni.start();
             }
         }
     }
@@ -76,15 +121,6 @@ Rectangle {
        anchors.topMargin: 50
    }
 
-   Scoring {
-        id: scores
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.top: header.bottom
-
-        gameInstance: game
-   }
-
    Buzzers {
        id: buzzers
        anchors.bottom: parent.bottom
@@ -94,4 +130,18 @@ Rectangle {
 
        gameInstance: game
    }
+
+   Scoring {
+        id: scores
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: header.bottom
+
+        gameInstance: game
+   }
+
+   PressAnyKey {
+       id:anyKey
+   }
+
 }

@@ -24,4 +24,14 @@
     <qresource prefix="/templates">
         <file alias="PlayBackAnimationTemplate">BubbleAnimationTemplate.txt</file>
     </qresource>
+    <qresource prefix="/sndfx">
+        <file alias="clunk">clunk.wav</file>
+        <file alias="whoosh">whoosh.wav</file>
+        <file alias="chime">chimes.wav</file>
+        <file alias="yay2">yay2.wav</file>
+        <file alias="yay1">yay.wav</file>
+        <file alias="gameover">gameover.wav</file>
+        <file alias="boing">boing.wav</file>
+        <file alias="pop">pop.wav</file>
+    </qresource>
 </RCC>

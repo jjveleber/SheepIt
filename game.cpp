@@ -10,6 +10,10 @@
 
 Game::Game(QObject *parent) : QObject(parent) {
 
+    m_timer = new QTimer(this);
+    connect(m_timer, SIGNAL(timeout()), this, SLOT(timeout()));
+    m_serial = 0;
+
     // Load m_PlayBackAnimationTemplate
     QFile templateFile(":/templates/PlayBackAnimationTemplate");
     templateFile.open(QFile::ReadOnly | QFile::Text);
@@ -25,7 +29,6 @@ Game::Game(QObject *parent) : QObject(parent) {
         QDataStream highScoreIn(&highScoreFile);
         int highScoreIndex;
         highScoreIn >> highScoreIndex;
-        qDebug() << "highScoreIndex" << highScoreIndex;
         m_highScore.setScoreIndex(highScoreIndex);
     }
 
@@ -66,8 +69,27 @@ void Game::setIsPlayBack(const bool &value) {
     emit isPlayBackChanged();
 }
 
+QString Game::comPortName() const {
+    return m_comPortName;
+}
+
+void Game::setComportName(const QString &value) {
+    m_comPortName = value;
+    if(m_serial != 0) {
+        m_serial->deleteLater();
+        m_serial = 0;
+    }
+    m_serial = new QSerialPort(this);
+    connect(m_serial, SIGNAL(readyRead()), this, SLOT(dataReady()));
+    openSerialPort();
+}
+
 int Game::getExpectedBuzzerIndex() {
     return m_sequence.at(m_playerSequenceindex);
+}
+
+int Game::externalButton() const {
+    return m_externalbuttonPressed;
 }
 
 void Game::addRandomToSequence() {
@@ -95,7 +117,7 @@ void Game::buttonPressed(int position) {
         emit cheatStringChanged();
     } else {
         // Game over man!
-        resetGame();
+        emit gameOver();
     }
 }
 
@@ -111,7 +133,8 @@ QString Game::playBackAnimationQml() const {
         animationQml = animationQml % m_PlayBackAnimationTemplate
                             .arg(buttonLookup.value(pos));
     }
-    return animationQml % "\n ScriptAction{script:{gameInstance.isPlayBack = false;}}}";
+    return animationQml % "\n PauseAnimation { duration: 500 } \n"
+            % "ScriptAction{script:{gameInstance.isPlayBack = false;}}}";
 }
 
 void Game::persistHighScore() {
@@ -122,6 +145,35 @@ void Game::persistHighScore() {
     QDataStream out(&file);
     out.setVersion(QDataStream::Qt_5_2);
     out << m_highScore.scoreIndex();
+}
+
+void Game::openSerialPort()
+{
+
+    m_serial->setPortName(m_comPortName);
+    m_serial->setBaudRate(QSerialPort::Baud9600);
+    m_serial->setDataBits(QSerialPort::Data8);
+    m_serial->setParity(QSerialPort::NoParity);
+    m_serial->setStopBits(QSerialPort::OneStop);
+    m_serial->setFlowControl(QSerialPort::NoFlowControl);
+    if (m_serial->open(QIODevice::ReadWrite)) {
+        qDebug() << "opened:" << m_comPortName;
+    } else {
+        qDebug() << "sux! couldn't open:" << m_comPortName;
+    }
+}
+
+void Game::dataReady() {
+    QByteArray buffer = m_serial->readAll();
+    m_externalbuttonPressed = buffer.at(buffer.size() -1);
+    m_timer->stop();
+    m_timer->start(10);
+}
+
+void Game::timeout() {
+    qDebug() << "externalButtonPressed" << m_externalbuttonPressed;
+    m_timer->stop();
+    emit externalButtonPressed();
 }
 
 QString Game::cheatString() const {
@@ -143,5 +195,10 @@ QString Game::cheatString() const {
         }
     }
     return cheatStr.append(seqStr);
+}
+
+void Game::close() {
+    m_serial->close();
+    m_serial->deleteLater();
 }
 

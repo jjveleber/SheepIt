@@ -2,6 +2,7 @@ import Game 1.0
 import QtQuick 2.2
 import QtQuick.Layouts 1.1
 import QtQuick.Particles 2.0
+import QtMultimedia 5.0
 
 Item {
     id:me
@@ -113,6 +114,34 @@ Item {
         }
     }
 
+    SoundEffect{
+        id: slideSnd
+        source: "qrc:/sndfx/whoosh"
+
+    }
+
+    SoundEffect{
+        id: clunkSnd
+        source: "qrc:/sndfx/clunk"
+
+    }
+
+    SoundEffect{
+        id: chimeSnd
+        source: "qrc:/sndfx/chime"
+
+    }
+
+    SoundEffect{
+        id:highScoreYay1Snd
+        source: "qrc:/sndfx/yay1"
+    }
+
+    SoundEffect{
+        id:highScoreYay2Snd
+        source: "qrc:/sndfx/yay2"
+    }
+
     SequentialAnimation {
         id:youScoredAnimation
         running: false
@@ -124,6 +153,12 @@ Item {
                 }
             }
             ParallelAnimation {
+                ScriptAction {
+                    script: {
+                        slideSnd.play();
+                    }
+                }
+
                 YAnimator {
                     id:yourNewScoreYAni
                     target: yourNewScoreText;
@@ -150,6 +185,8 @@ Item {
             }
             ScriptAction {
                 script: {
+                    clunkSnd.play();
+                    chimeSnd.play();
                     shootingStarEmitter.burst(750);
                     shootingStarBurst.pulse(300);
                 }
@@ -167,6 +204,17 @@ Item {
                     script: {
                         yourScoreText.text = gameInstance.yourScore.scoreString(gameInstance.yourScore.scoreIndex);
                         highScoreText.text = gameInstance.highScore.scoreString(gameInstance.highScore.scoreIndex);
+                        if(gameInstance.isHighScore) {
+                            function randomNumber(from, to) {
+                               return Math.floor(Math.random() * (to - from + 1) + from);
+                            }
+                            if(randomNumber(1,2) == 1) {
+                                highScoreYay1Snd.play();
+                            } else {
+                                highScoreYay2Snd.play();
+                            }
+                        }
+
                         gameInstance.isPlayBack = true;
                     }
                 }

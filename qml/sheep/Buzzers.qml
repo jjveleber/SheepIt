@@ -8,6 +8,7 @@ Item {
     property Game gameInstance
     property alias playBackAni: playBackAnimation
     property string playBackAniQml
+    property alias externalButtonMonitor: externalButtonMonitor
 
 
     Row { // The "Row" type lays out its child items in a horizontal line
@@ -48,6 +49,33 @@ Item {
                 var ani = Qt.createQmlObject(playBackAniQml, buzzers, "playBackAniQml");
                 ani.start();
             }
+        }
+    }
+
+    Item {
+        id:externalButtonMonitor
+        property int buttonPos: -1
+        onButtonPosChanged: {
+            switch(buttonPos) {
+            case 0:
+                purpleButton.buzzerPressedAction.start();
+                break;
+            case 1:
+                blueButton.buzzerPressedAction.start();
+                break;
+            case 2:
+                orangeButton.buzzerPressedAction.start();
+                break;
+            case 3:
+                greenButton.buzzerPressedAction.start();
+                break;
+             default:
+                 break;
+            }
+
+            buttonPos = -1;
+
+
         }
     }
 

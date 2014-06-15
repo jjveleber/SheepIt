@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
     QtQuick2ApplicationViewer viewer;
     viewer.setMainQmlFile(QStringLiteral("qml/sheep/main.qml"));
     viewer.setTitle("Sheep It!");
-    viewer.showNormal();
+    viewer.showFullScreen();
 
     return app.exec();
 }
